@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Core.Interfaces;
 
 namespace API
 {
@@ -20,6 +21,9 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
              public void ConfigureServices(IServiceCollection services)
         {
+            
+            services.AddScoped<IProductRepository, ProductRepository>();
+            //addScoped lifetime means the servive is created when https request come in and dies after we got the result 
             services.AddControllers();
             services.AddDbContext<StoreContext>(x =>
             {
