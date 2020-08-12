@@ -5,9 +5,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Core.Interfaces;
 using AutoMapper;
 using API.Helpers;
+using API.Middleware;
+using API.Extension;
 
 namespace API
 {
@@ -21,27 +22,31 @@ namespace API
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-             public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             
-            services.AddScoped<IProductRepository, ProductRepository>();
-            services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
-            //addScoped lifetime means the servive is created when https request come in and dies after we got the result 
+           
             services.AddControllers();
             services.AddAutoMapper(typeof(MappingProfiles));
+            
             services.AddDbContext<StoreContext>(x =>
             {
                 x.UseSqlite(_config.GetConnectionString("DefaultConnection"));
             });
+
+            services.AddApplicationServices();
+            services.AddSwaggerDocumentation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseMiddleware<ExceptionMiddleware>();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
             app.UseHttpsRedirection();
 
@@ -50,6 +55,7 @@ namespace API
 
             app.UseAuthorization();
 
+            app.UseSwaggerDocumentation();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
