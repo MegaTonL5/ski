@@ -19,6 +19,7 @@ namespace API
         public Startup(IConfiguration config)
         {
             _config = config;
+
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -34,6 +35,8 @@ namespace API
                 x.UseSqlite(_config.GetConnectionString("DefaultConnection"));
             });
 
+
+          
             services.AddApplicationServices();
             services.AddSwaggerDocumentation();
             services.AddCors(opt =>
@@ -67,6 +70,7 @@ namespace API
             {
                 endpoints.MapControllers();
             });
+
         }
     }
 }
