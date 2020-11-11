@@ -52,25 +52,23 @@ namespace API
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseMiddleware<ExceptionMiddleware>();
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
             app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
             app.UseStaticFiles();
+
             app.UseCors("CorsPolicy");
+
             app.UseAuthorization();
 
-            app.UseSwaggerDocumentation();
+            app.UseSwaggerDocumention();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
-
         }
     }
 }

@@ -20,7 +20,7 @@ namespace API.Extension
             return services;
         }
 
-        public static IApplicationBuilder UseSwaggerDocumentation(this IApplicationBuilder app)
+        public static IApplicationBuilder UseSwaggerDocumention(this IApplicationBuilder app)
         {
             app.UseSwagger();
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "SkiNet API V1"); });

@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace API.Errors
+﻿namespace API.Errors
 {
-    public class ApiExeception : ApiResponse
+    public class ApiException : ApiResponse
     {
-        public ApiExeception(int statusCode, string message = null, string details =null) : base(statusCode, message)
+        public ApiException(int statusCode, string message = null, string details = null) : base(statusCode, message)
         {
             Details = details;
         }
